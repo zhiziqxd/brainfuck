@@ -2,18 +2,13 @@
 using namespace std;
 char *ptr;
 string str;
-bool f_while,flag;
-int start;
+bool flag;
 char input(){
     char a;
     cin>>a;
     return a;
 }
-void run(char ch,int x){
-    if(ch==']'){
-        flag=true;
-        return;
-    }
+void run(char ch){
     switch(ch){
         case '>':
         ptr++;
@@ -27,9 +22,8 @@ void run(char ch,int x){
         cout<<char(*ptr);
         case ',':
         *ptr=input();
-        case '[':
-        f_while=true;
-        start=x;
+        case ']':
+        flag=true;
     }
     return;
 }
@@ -37,13 +31,27 @@ int main(){
     freopen("bf.txt","r",stdin);
     while(cin>>str){
         for(int i=0;i<str.length();i++){
-            run(str[i],i);
-            if(f_while&&flag&&!(*ptr)){
-                f_while=false;
-                flag=false;
+            run(str[i]);
+            if(!flag){
+                continue;
             }
-            if(f_while&&flag&&(*ptr)){
-                i=start+1;
+            flag=false;
+            int cnt=0;
+            for(int j=i-1;j>=0;j--){
+                if(str[j]==']'){
+                    cnt++;
+                }
+                if(str[j]=='['&&cnt==0){
+                    i=j+1;
+                    break;
+                }
+                else if(str[j]=='['){
+                    cnt--;
+                }
+            }
+            if(cnt!=0){
+                cout<<"error";
+                return 0;
             }
         }
     }
