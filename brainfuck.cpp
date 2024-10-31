@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
 using namespace std;
-char *ptr;
+char *ptr=nullptr;
 string str;
 bool flag;
 char input(){
